@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import DisplayDone from './DisplayDone';
 
 class TodoList extends Component {
 
@@ -10,6 +11,7 @@ class TodoList extends Component {
         this.handleChangeCategory = this.handleChangeCategory.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleDelete = this.handleDelete.bind(this);
+        this.handleSwitchDone = this.handleSwitchDone.bind(this);
       }
 
     handleChangeTodo(event) {
@@ -33,10 +35,17 @@ class TodoList extends Component {
         this.props.removeTodo(event.target.id);
     }
 
+    handleSwitchDone(event) {
+        event.preventDefault();
+        this.props.switchDone(event.target.id);
+        console.log(event.target.id)
+    }
+
     render() {
-        let items = this.props.items.map((item) =>
+        const items = this.props.items.map((item) =>
             <div className="item" key={item.id}>
-                <li >{item.category} - {item.content}</li>
+                <li id={item.id} onClick={this.handleSwitchDone.bind()}>{item.category} - {item.content} - {item.done}</li>
+                <DisplayDone done={item.done} />
                 <button id={item.id} onClick={this.handleDelete.bind()}>Supprimer</button>
             </div>
         );
